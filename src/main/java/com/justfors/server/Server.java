@@ -10,15 +10,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server extends Thread {
 
     private int port;
     private NetConnectionServer netConnectionServer;
-    public static List<ServerConnection> connections = new ArrayList<>();
+    public static List<ServerConnection> connections = new CopyOnWriteArrayList<>();
 
     public Server(int port, NetConnectionServer netConnectionServer){
         this.port = port;

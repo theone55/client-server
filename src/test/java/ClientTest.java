@@ -8,12 +8,25 @@ import java.io.IOException;
 public class ClientTest implements NetConnectionClient {
     @Override
     public void clientConnectionExecute(InputStream in, OutputStream out) throws IOException {
-        while (true) out.send("qwe " + out.toString());
+        while (true) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (Client.ClientConnection connection : Client.connections) {
+                OutputStream outputStream = connection.getOut();
+                outputStream.send("qwe " + out.toString());
+            }
+
+        }
     }
 
     public static void main(String[] args) {
-        new Client("93.125.42.194", 4444, new ClientTest()).start();
-        new Client("93.125.42.194", 4444, new ClientTest()).start();
-        new Client("93.125.42.194", 4444, new ClientTest()).start();
+        new Client("localhost", 4444, new ClientTest()).start();
+        new Client("localhost", 4444, new ClientTest()).start();
+        new Client("localhost", 4444, new ClientTest()).start();
+        new Client("localhost", 5555, new ClientTest()).start();
+        new Client("localhost", 7777, new ClientTest()).start();
     }
 }

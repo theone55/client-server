@@ -26,5 +26,7 @@ public class ServerTest implements NetConnectionServer {
 
     public static void main(String[] args) {
         new Server(4444, new ServerTest()).start();
+        new Server(7777, new ServerTest()).start();
+        new Server(5555, new ServerTest()).start();
     }
 }
