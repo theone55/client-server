@@ -1,5 +1,6 @@
 package com.justfors.client;
 
+import com.justfors.common.Connection;
 import com.justfors.stream.InputStream;
 import com.justfors.stream.OutputStream;
 
@@ -37,37 +38,22 @@ public class Client extends Thread {
                  OutputStream out = new OutputStream(new OutputStreamWriter(socket.getOutputStream()))) {
                 ClientConnection connection = new ClientConnection(socket, in, out, netConnectionClient);
                 connections.add(connection);
-                netConnectionClient.clientConnectionExecute(in, out);
+                netConnectionClient.clientConnectionExecute(in, out, socket);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public class ClientConnection {
+    public class ClientConnection extends Connection {
 
-        private Socket socket;
         private NetConnectionClient netConnectionClient;
-        private InputStream in;
-        private OutputStream out;
 
         ClientConnection(Socket socket, InputStream inputStream, OutputStream outputStream, NetConnectionClient netConnectionClient) throws IOException {
-            this.socket = socket;
+            super(socket);
             this.netConnectionClient = netConnectionClient;
-            in = inputStream;
-            out = outputStream;
-        }
-
-        public Socket getSocket() {
-            return socket;
-        }
-
-        public InputStream getIn() {
-            return in;
-        }
-
-        public OutputStream getOut() {
-            return out;
+            setIn(inputStream);
+            setOut(outputStream);
         }
     }
 }

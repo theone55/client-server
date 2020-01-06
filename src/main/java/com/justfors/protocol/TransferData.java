@@ -1,9 +1,14 @@
 package com.justfors.protocol;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.time.Instant;
 
 public class TransferData {
 
+    private static ObjectMapper obj = new ObjectMapper();
     private Instant createDate;
     private String data;
     private Status status;
@@ -71,4 +76,23 @@ public class TransferData {
                 '}';
     }
 
+    public String build() {
+        String data = null;
+        try {
+            data = obj.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public static TransferData reciveTransferData(String data) {
+        TransferData transferData = null;
+        try {
+            transferData = obj.readValue(data, TransferData.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return transferData;
+    }
 }

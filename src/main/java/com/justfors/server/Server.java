@@ -1,5 +1,6 @@
 package com.justfors.server;
 
+import com.justfors.common.Connection;
 import com.justfors.stream.InputStream;
 import com.justfors.stream.OutputStream;
 
@@ -61,41 +62,24 @@ public class Server extends Thread {
         return ipAddress;
     }
 
-    public class ServerConnection extends Thread {
+    public class ServerConnection extends Connection implements Runnable {
 
-        private Socket socket;
         private NetConnectionServer netConnectionServer;
-        private InputStream in;
-        private OutputStream out;
 
-        ServerConnection(Socket socket, NetConnectionServer netConnectionServer) throws IOException {
-            this.socket = socket;
+        public ServerConnection(Socket socket, NetConnectionServer netConnectionServer) throws IOException {
+            super(socket);
             this.netConnectionServer = netConnectionServer;
-            in = new InputStream(new InputStreamReader(socket.getInputStream()));
-            out = new OutputStream(new OutputStreamWriter(socket.getOutputStream()));
             start();
         }
 
         public void run() {
             // Here must be your logic for connection
             try {
-                netConnectionServer.serverConnectionExecute(in, out, socket);
+                netConnectionServer.serverConnectionExecute(getIn(), getOut(), getSocket());
             } catch (IOException e) {
                 e.printStackTrace();
             }
             //****************************************
-        }
-
-        public Socket getSocket() {
-            return socket;
-        }
-
-        public InputStream getIn() {
-            return in;
-        }
-
-        public OutputStream getOut() {
-            return out;
         }
     }
 }
