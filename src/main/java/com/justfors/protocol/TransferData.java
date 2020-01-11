@@ -1,7 +1,9 @@
 package com.justfors.protocol;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -9,6 +11,14 @@ import java.time.Instant;
 public class TransferData {
 
     private static ObjectMapper obj = new ObjectMapper();
+    private static JavaTimeModule module = new JavaTimeModule();
+
+    {
+        obj.registerModule(module);
+        obj.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    }
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private Instant createDate;
     private String data;
     private Status status;

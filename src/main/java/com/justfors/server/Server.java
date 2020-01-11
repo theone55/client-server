@@ -1,12 +1,8 @@
 package com.justfors.server;
 
 import com.justfors.common.Connection;
-import com.justfors.stream.InputStream;
-import com.justfors.stream.OutputStream;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
@@ -69,7 +65,7 @@ public class Server extends Thread {
         public ServerConnection(Socket socket, NetConnectionServer netConnectionServer) throws IOException {
             super(socket);
             this.netConnectionServer = netConnectionServer;
-            start();
+            new Thread(this).start();
         }
 
         public void run() {
