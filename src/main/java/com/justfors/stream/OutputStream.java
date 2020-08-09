@@ -20,7 +20,7 @@ public class OutputStream extends BufferedWriter {
 
     public void send(byte[] bytes) {
         try {
-            write(Arrays.toString(bytes) + "\n");
+            write(Arrays.toString(bytes).replaceAll("\\[","").replaceAll("]","").replaceAll("\\s", "") + "\n");
             flush();
         } catch (IOException ignored) {}
     }
