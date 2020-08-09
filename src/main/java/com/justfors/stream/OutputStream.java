@@ -3,6 +3,7 @@ package com.justfors.stream;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 
 public class OutputStream extends BufferedWriter {
 
@@ -13,6 +14,13 @@ public class OutputStream extends BufferedWriter {
     public void send(String msg) {
         try {
             write(msg + "\n");
+            flush();
+        } catch (IOException ignored) {}
+    }
+
+    public void send(byte[] bytes) {
+        try {
+            write(Arrays.toString(bytes) + "\n");
             flush();
         } catch (IOException ignored) {}
     }
