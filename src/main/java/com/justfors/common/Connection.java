@@ -1,17 +1,18 @@
 package com.justfors.common;
 
-import com.justfors.server.NetConnectionServer;
 import com.justfors.stream.InputStream;
 import com.justfors.stream.OutputStream;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.DatagramSocket;
 import java.net.Socket;
 
 public class Connection {
 
     private Socket socket;
+    private DatagramSocket datagramSocket;
     private InputStream in;
     private OutputStream out;
 
@@ -21,8 +22,20 @@ public class Connection {
         out = new OutputStream(new OutputStreamWriter(socket.getOutputStream()));
     }
 
+    public Connection(DatagramSocket datagramSocket) {
+        this.datagramSocket = datagramSocket;
+    }
+
     public Socket getSocket() {
         return socket;
+    }
+
+    public DatagramSocket getDatagramSocket() {
+        return datagramSocket;
+    }
+
+    public void setDatagramSocket(DatagramSocket datagramSocket) {
+        this.datagramSocket = datagramSocket;
     }
 
     public InputStream getIn() {
